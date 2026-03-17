@@ -187,8 +187,7 @@ export function parseAsArrayOf<ItemType>(
         })
         .filter((value): value is ItemType => value !== null);
     },
-    serialize: (values) =>
-      values.map((value) => encodeURIComponent(itemParser.serialize(value))).join(separator),
+    serialize: (values) => values.map((value) => encodeURIComponent(itemParser.serialize(value))).join(separator),
     eq: (a, b) => {
       if (a === b) return true;
       if (a.length !== b.length) return false;
