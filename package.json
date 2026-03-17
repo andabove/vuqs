@@ -1,0 +1,21 @@
+{
+  "name": "@gdc/vuqs",
+  "version": "0.0.1",
+  "private": true,
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "scripts": {
+    "test": "vitest",
+    "test:run": "vitest run",
+    "typecheck": "vue-tsc --noEmit -p tsconfig.json"
+  },
+  "dependencies": {
+    "@vueuse/router": "latest"
+  },
+  "peerDependencies": {
+    "vue": ">=3.5",
+    "vue-router": ">=4"
+  }
+}
