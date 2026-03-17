@@ -16,6 +16,7 @@ export interface QueryStateOptions {
 export interface Parser<T> {
   parse(value: string): T | null;
   serialize(value: T): string;
+  eq(a: T, b: T): boolean;
   withDefault(defaultValue: T): ParserWithDefault<T>;
   withOptions(options: QueryStateOptions): Parser<T>;
   readonly defaultValue: undefined;
@@ -30,6 +31,7 @@ export interface Parser<T> {
 export interface ParserWithDefault<T> {
   parse(value: string): T | null;
   serialize(value: T): string;
+  eq(a: T, b: T): boolean;
   withDefault(defaultValue: T): ParserWithDefault<T>;
   withOptions(options: QueryStateOptions): ParserWithDefault<T>;
   readonly defaultValue: T;

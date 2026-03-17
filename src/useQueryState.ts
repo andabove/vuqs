@@ -54,7 +54,7 @@ export function useQueryState<T>(name: string, parser: Parser<T> | ParserWithDef
         // Returning null removes the param from the URL entirely.
         if (v === null) return null;
         // Setting back to the default produces a clean URL with no param.
-        if (hasDefault && v === defaultValue) return null;
+        if (hasDefault && parser.eq(v, defaultValue as T)) return null;
         return parser.serialize(v);
       },
     },

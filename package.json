@@ -12,7 +12,8 @@
     "typecheck": "vue-tsc --noEmit -p tsconfig.json"
   },
   "dependencies": {
-    "@vueuse/router": "latest"
+    "@vueuse/router": "latest",
+    "valibot": "latest"
   },
   "peerDependencies": {
     "vue": ">=3.5",
