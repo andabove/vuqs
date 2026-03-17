@@ -171,19 +171,24 @@ export function parseAsJson<TSchema extends GenericSchema>(schema: TSchema): Par
  */
 export function parseAsArrayOf<ItemType>(
   itemParser: Parser<ItemType> | ParserWithDefault<ItemType>,
-  separator = ",",
+  separator: string = ",",
 ): Parser<ItemType[]> {
-  const encodedSeparator = encodeURIComponent(separator);
   return createParser<ItemType[]>({
     parse: (query) => {
       if (query === "") return [];
       return query
         .split(separator)
-        .map((item) => itemParser.parse(item.replaceAll(encodedSeparator, separator)))
+        .map((item) => {
+          try {
+            return itemParser.parse(decodeURIComponent(item));
+          } catch {
+            return null;
+          }
+        })
         .filter((value): value is ItemType => value !== null);
     },
     serialize: (values) =>
-      values.map((value) => itemParser.serialize(value).replaceAll(separator, encodedSeparator)).join(separator),
+      values.map((value) => encodeURIComponent(itemParser.serialize(value))).join(separator),
     eq: (a, b) => {
       if (a === b) return true;
       if (a.length !== b.length) return false;
