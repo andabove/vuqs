@@ -12,14 +12,14 @@
     "vue-router",
     "vue3"
   ],
-  "homepage": "https://github.com/andabove/device-cloud/tree/main/packages/vuqs#readme",
+  "homepage": "https://github.com/andabove/vuqs#readme",
   "bugs": {
-    "url": "https://github.com/andabove/device-cloud/issues"
+    "url": "https://github.com/andabove/vuqs/issues"
   },
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/andabove/device-cloud.git",
+    "url": "https://github.com/andabove/vuqs",
     "directory": "packages/vuqs"
   },
   "files": [
