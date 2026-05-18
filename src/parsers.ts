@@ -1,4 +1,4 @@
-import type { Parser, ParserWithDefault, QueryStateOptions } from "./types";
+import type { JsonValue, Parser, ParserWithDefault, QueryStateOptions } from "./types";
 
 interface ParserConfig<T> {
   parse: (value: string) => T | null;
@@ -133,6 +133,9 @@ export function parseAsStringEnum<Enum extends string>(validValues: Enum[]): Par
  * Uses deep equality (`JSON.stringify` comparison) for the `eq` check so
  * that setting to the default value still cleans the URL correctly.
  *
+ * `T` must be JSON-serialisable (`JsonValue`). The `parseFn` must return only
+ * values that `JSON.stringify` can round-trip (no `Date`, `BigInt`, `Map`, etc.).
+ *
  * @example
  * // with Valibot
  * const schema = v.object({ q: v.string() })
@@ -149,7 +152,7 @@ export function parseAsStringEnum<Enum extends string>(validValues: Enum[]): Par
  *   return r.success ? r.data : null
  * }))
  */
-export function parseAsJson<T>(parseFn: (raw: unknown) => T | null): Parser<T> {
+export function parseAsJson<T extends JsonValue>(parseFn: (raw: unknown) => T | null): Parser<T> {
   return createParser<T>({
     parse: (str) => {
       try {

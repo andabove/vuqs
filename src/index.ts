@@ -1,4 +1,12 @@
-export type { Parser, ParserWithDefault, QueryStateOptions } from "./types";
+export type {
+  JsonArray,
+  JsonObject,
+  JsonPrimitive,
+  JsonValue,
+  Parser,
+  ParserWithDefault,
+  QueryStateOptions,
+} from "./types";
 export {
   createParser,
   parseAsArrayOf,

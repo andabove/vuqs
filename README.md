@@ -56,7 +56,7 @@ page.value = null; // also removes ?page, resets to default (1)
 By default, query updates replace the current history entry. Use `mode: "push"` to add a new entry so the back button restores the previous value:
 
 ```ts
-import { useQueryState, parseAsString } from "@andabove/vuqs";
+import { useQueryState, parseAsString, parseAsStringLiteral } from "@andabove/vuqs";
 
 const tab = useQueryState("tab", parseAsString.withOptions({ mode: "push" }));
 

@@ -1,3 +1,17 @@
+/** JSON primitive values. */
+export type JsonPrimitive = string | number | boolean | null;
+
+/** JSON object values (recursive). */
+export interface JsonObject {
+  [key: string]: JsonValue;
+}
+
+/** JSON array values (recursive). */
+export type JsonArray = JsonValue[];
+
+/** Any value that `JSON.stringify` can round-trip without data loss. */
+export type JsonValue = JsonPrimitive | JsonObject | JsonArray;
+
 /**
  * Controls how the router updates the URL when the query param changes.
  * Defaults to "replace" to avoid polluting browser history with every keystroke.

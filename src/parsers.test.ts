@@ -200,10 +200,10 @@ describe("parseAsStringEnum", () => {
 
 describe("parseAsJson", () => {
   const schema = v.object({ foo: v.string(), bar: v.number() });
-  const parseFn = (raw: unknown) => {
+  function parseFn(raw: unknown): { foo: string; bar: number } | null {
     const r = v.safeParse(schema, raw);
     return r.success ? r.output : null;
-  };
+  }
   const parser = parseAsJson(parseFn);
 
   it("parses valid JSON matching the schema", () => {
