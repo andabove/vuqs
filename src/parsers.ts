@@ -1,6 +1,4 @@
 import type { Parser, ParserWithDefault, QueryStateOptions } from "./types";
-import type { GenericSchema, InferOutput } from "valibot";
-import * as v from "valibot";
 
 interface ParserConfig<T> {
   parse: (value: string) => T | null;
@@ -126,24 +124,36 @@ export function parseAsStringEnum<Enum extends string>(validValues: Enum[]): Par
 // ---------------------------------------------------------------------------
 
 /**
- * Serializes/deserializes a JSON value in the query string, validated
- * against a Valibot schema. Returns null if the string is not valid JSON or
- * does not satisfy the schema.
+ * Serializes/deserializes a JSON value in the query string.
+ *
+ * Pass any `(raw: unknown) => T | null` function to validate the parsed JSON.
+ * This is validator-agnostic — works with Zod, Valibot, or any custom logic.
+ * Returns null if the string is not valid JSON or the parse function returns null.
  *
  * Uses deep equality (`JSON.stringify` comparison) for the `eq` check so
  * that setting to the default value still cleans the URL correctly.
  *
  * @example
- * const filter = useQueryState('filter', parseAsJson(v.object({ q: v.string() })))
+ * // with Valibot
+ * const schema = v.object({ q: v.string() })
+ * const filter = useQueryState('filter', parseAsJson((raw) => {
+ *   const r = v.safeParse(schema, raw)
+ *   return r.success ? r.output : null
+ * }))
+ *
+ * @example
+ * // with Zod
+ * const schema = z.object({ q: z.string() })
+ * const filter = useQueryState('filter', parseAsJson((raw) => {
+ *   const r = schema.safeParse(raw)
+ *   return r.success ? r.data : null
+ * }))
  */
-export function parseAsJson<TSchema extends GenericSchema>(schema: TSchema): Parser<InferOutput<TSchema>> {
-  type T = InferOutput<TSchema>;
+export function parseAsJson<T>(parseFn: (raw: unknown) => T | null): Parser<T> {
   return createParser<T>({
     parse: (str) => {
       try {
-        const obj: unknown = JSON.parse(str);
-        const result = v.safeParse(schema, obj);
-        return result.success ? result.output : null;
+        return parseFn(JSON.parse(str));
       } catch {
         return null;
       }

@@ -1,24 +1,62 @@
 {
-  "name": "@gdc/vuqs",
-  "version": "0.0.1",
-  "private": true,
+  "name": "@andabove/vuqs",
+  "version": "0.1.0",
+  "description": "Type-safe URL query state for Vue 3 — like ref, but stored in the URL",
+  "keywords": [
+    "composable",
+    "query-state",
+    "search-params",
+    "type-safe",
+    "url",
+    "vue",
+    "vue-router",
+    "vue3"
+  ],
+  "homepage": "https://github.com/andabove/vuqs#readme",
+  "bugs": {
+    "url": "https://github.com/andabove/vuqs/issues"
+  },
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/andabove/vuqs"
+  },
+  "files": [
+    "CHANGELOG.md",
+    "dist",
+    "LICENSE",
+    "README.md"
+  ],
   "type": "module",
+  "main": "./dist/index.mjs",
+  "types": "./dist/index.d.ts",
   "exports": {
-    ".": "./src/index.ts"
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.mjs"
+    }
+  },
+  "publishConfig": {
+    "access": "public"
   },
   "scripts": {
+    "build": "unbuild",
+    "prepublishOnly": "pnpm run build",
     "test": "vitest",
     "test:run": "vitest run",
     "typecheck": "vue-tsc --noEmit -p tsconfig.json"
   },
   "devDependencies": {
     "@vueuse/router": "latest",
+    "unbuild": "latest",
     "valibot": "latest"
   },
   "peerDependencies": {
     "@vueuse/router": "*",
-    "valibot": "*",
     "vue": ">=3.5",
     "vue-router": ">=4"
+  },
+  "engines": {
+    "node": ">=18"
   }
 }

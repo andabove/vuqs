@@ -200,7 +200,11 @@ describe("parseAsStringEnum", () => {
 
 describe("parseAsJson", () => {
   const schema = v.object({ foo: v.string(), bar: v.number() });
-  const parser = parseAsJson(schema);
+  const parseFn = (raw: unknown) => {
+    const r = v.safeParse(schema, raw);
+    return r.success ? r.output : null;
+  };
+  const parser = parseAsJson(parseFn);
 
   it("parses valid JSON matching the schema", () => {
     expect(parser.parse('{"foo":"abc","bar":42}')).toEqual({ foo: "abc", bar: 42 });

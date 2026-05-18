@@ -135,7 +135,11 @@ describe("useQueryState transform.set", () => {
   describe("with an object default using deep equality (parseAsJson)", () => {
     it("returns null when setting a value deeply equal to the default", () => {
       const schema = v.object({ active: v.boolean() });
-      const parser = parseAsJson(schema).withDefault({ active: false });
+      const parseFn = (raw: unknown) => {
+        const r = v.safeParse(schema, raw);
+        return r.success ? r.output : null;
+      };
+      const parser = parseAsJson(parseFn).withDefault({ active: false });
       useQueryState("filter", parser);
       // A different object reference with the same shape should still clean the URL
       expect(lastCall.options.transform.set({ active: false })).toBeNull();
@@ -143,7 +147,11 @@ describe("useQueryState transform.set", () => {
 
     it("returns serialized JSON for a value that differs from the default", () => {
       const schema = v.object({ active: v.boolean() });
-      const parser = parseAsJson(schema).withDefault({ active: false });
+      const parseFn = (raw: unknown) => {
+        const r = v.safeParse(schema, raw);
+        return r.success ? r.output : null;
+      };
+      const parser = parseAsJson(parseFn).withDefault({ active: false });
       useQueryState("filter", parser);
       expect(lastCall.options.transform.set({ active: true })).toBe('{"active":true}');
     });
