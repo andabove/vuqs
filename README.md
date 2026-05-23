@@ -103,7 +103,10 @@ enum Direction {
   Down = "down",
 }
 
-const dir = useQueryState("dir", parseAsStringEnum<Direction>(Object.values(Direction)).withDefault(Direction.Up));
+const dir = useQueryState(
+  "dir",
+  parseAsStringEnum<Direction>(Object.values(Direction)).withDefault(Direction.Up),
+);
 ```
 
 ### `parseAsArrayOf` example
@@ -185,10 +188,31 @@ vuqs covers the core use case. Some nuqs features that are React/Next.js specifi
 | `useTransition` loading states           | n/a     | React only         |
 | Testing adapter                          | planned | yes                |
 
+## Development
+
+This repo is a pnpm workspace:
+
+| Path                                  | Description                          |
+| ------------------------------------- | ------------------------------------ |
+| [`packages/vuqs`](packages/vuqs/)     | Publishable library                  |
+| [`apps/playground`](apps/playground/) | Interactive demo (Vite + Vue Router) |
+
+```bash
+pnpm install
+pnpm dev          # start playground at http://localhost:5173
+pnpm test         # run library unit tests
+pnpm typecheck    # typecheck library + playground
+pnpm build        # build library to packages/vuqs/dist
+pnpm lint         # oxlint
+pnpm fmt:check    # oxfmt (use pnpm fmt to fix)
+```
+
+The playground imports the library source directly (via Vite alias) so changes hot-reload without rebuilding.
+
 ## Attribution
 
 Inspired by [nuqs](https://github.com/47ng/nuqs) by [François Best](https://github.com/franky47) (MIT). This is an independent Vue 3 port.
 
 ## License
 
-MIT — see [LICENSE](./LICENSE)
+MIT — see [LICENSE](packages/vuqs/LICENSE)
