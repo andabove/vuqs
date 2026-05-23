@@ -24,8 +24,8 @@ const route = useRoute();
 const newTag = ref("");
 
 const currentUrl = computed(() => {
-  if (typeof window === "undefined") return "";
-  return window.location.href;
+  if (typeof window === "undefined") return route.fullPath;
+  return `${window.location.origin}${route.fullPath}`;
 });
 
 const parsedState = computed(() => ({
