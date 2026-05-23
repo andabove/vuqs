@@ -100,7 +100,9 @@ export const parseAsBoolean: Parser<boolean> = createParser({
  * @example
  * const sort = useQueryState('sort', parseAsStringLiteral(['asc', 'desc'] as const))
  */
-export function parseAsStringLiteral<const Literal extends string>(validValues: readonly Literal[]): Parser<Literal> {
+export function parseAsStringLiteral<const Literal extends string>(
+  validValues: readonly Literal[],
+): Parser<Literal> {
   return createParser<Literal>({
     parse: (query) => (validValues.includes(query as Literal) ? (query as Literal) : null),
     serialize: (value) => value,
@@ -200,7 +202,8 @@ export function parseAsArrayOf<ItemType>(
         })
         .filter((value): value is ItemType => value !== null);
     },
-    serialize: (values) => values.map((value) => encodeURIComponent(itemParser.serialize(value))).join(separator),
+    serialize: (values) =>
+      values.map((value) => encodeURIComponent(itemParser.serialize(value))).join(separator),
     eq: (a, b) => {
       if (a === b) return true;
       if (a.length !== b.length) return false;

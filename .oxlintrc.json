@@ -1,0 +1,19 @@
+{
+  "$schema": "./node_modules/oxlint/configuration_schema.json",
+  "plugins": ["typescript", "vitest", "vue"],
+  "env": {
+    "browser": true,
+    "node": true
+  },
+  "ignorePatterns": ["**/dist/**", "**/node_modules/**"],
+  "overrides": [
+    {
+      "files": ["**/*.test.ts"],
+      "plugins": ["vitest"]
+    },
+    {
+      "files": ["apps/playground/**/*.vue"],
+      "plugins": ["vue"]
+    }
+  ]
+}

@@ -34,7 +34,10 @@ function resolveRawString(v: RouteQueryValueRaw): string | null {
  */
 export function useQueryState<T>(name: string, parser: ParserWithDefault<T>): Ref<T>;
 export function useQueryState<T>(name: string, parser: Parser<T>): Ref<T | null>;
-export function useQueryState<T>(name: string, parser: Parser<T> | ParserWithDefault<T>): Ref<T | null> {
+export function useQueryState<T>(
+  name: string,
+  parser: Parser<T> | ParserWithDefault<T>,
+): Ref<T | null> {
   const hasDefault = parser.defaultValue !== undefined;
   const defaultValue = hasDefault ? (parser as ParserWithDefault<T>).defaultValue : null;
   const mode = parser.options.mode ?? "replace";

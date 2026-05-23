@@ -1,6 +1,6 @@
 import * as v from "valibot";
 import { beforeEach, describe, expect, it, vi } from "vitest";
-import { ref } from "vue";
+import { ref, type Ref } from "vue";
 
 import { parseAsBoolean, parseAsInteger, parseAsJson, parseAsString } from "./parsers";
 import { useQueryState } from "./useQueryState";
@@ -27,7 +27,9 @@ interface CapturedTransform {
 let lastCall: CapturedTransform;
 
 vi.mock("@vueuse/router", () => ({
-  useRouteQuery: vi.fn((name: string, defaultValue: unknown, options: CapturedTransform["options"]) => {
+  useRouteQuery: vi.fn<
+    (name: string, defaultValue: unknown, options: CapturedTransform["options"]) => Ref<unknown>
+  >((name, defaultValue, options) => {
     lastCall = { name, defaultValue, options };
     return ref(options.transform.get(null));
   }),
